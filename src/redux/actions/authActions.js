@@ -1,0 +1,13 @@
+class AuthActions {
+  static AUTH = {
+    CHECK_PHONE: {
+      REQUESTING: 'AUTH_CHECK_PHONE_REQUESTING',
+      SUCCESS: 'AUTH_CHECK_PHONE_SUCCESS',
+      ERROR: 'AUTH_CHECK_PHONE_ERROR',
+      EMPTY: 'AUTH_CHECK_PHONE_EMPTY',
+      SAVE_PHONE_NUMBER: `AUTH_SAVE_PHONE_NUMBER`,
+    },
+  };
+}
+
+export default AuthActions;
