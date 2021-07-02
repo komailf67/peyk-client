@@ -9,7 +9,7 @@ const Index = () => {
 
   useEffect(() => {
     if (true) {
-      history.push('/auth/check-phone');
+      history.push('/new-service');
     }
   }, []);
   return (
@@ -27,6 +27,9 @@ const Index = () => {
         </Route>
         <Route path="/auth/check-phone">
           <CheckPhone />
+        </Route>
+        <Route path="/new-service">
+          <NewService />
         </Route>
       </Switch>
     </div>
