@@ -8,24 +8,21 @@ import AuthActions from '../../redux/actions/authActions';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 
-const CheckPhone = ({ checkPhoneNumber, reset_password, checkPhoneResponse }) => {
+const Login = ({ checkPhoneNumber, reset_password }) => {
   const [phone, setPhone] = useState('');
   const handleCheckPhone = () => {
     const phonePrefix = 98;
     const phoneNumber = parseInt(phone, 10);
     const countryId = 9;
-    console.log('gggggggggggggggggg', phoneNumber);
     checkPhoneNumber({
-      phone: `989144062667`,
-      // phone: `${phonePrefix}${phoneNumber}`,
+      phone: `${phonePrefix}${phoneNumber}`,
+      code: phone.slice(phone.length - 5),
       // country_id: countryId,
       // reset_password: reset_password,
     });
   };
 
-  console.log('iiiiiiiiiiiiiiiiiiiiiii', checkPhoneResponse);
   /////
-  console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh che');
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,6 +46,7 @@ const CheckPhone = ({ checkPhoneNumber, reset_password, checkPhoneResponse }) =>
 
   const classes = useStyles();
 
+  console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh login');
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -57,11 +55,11 @@ const CheckPhone = ({ checkPhoneNumber, reset_password, checkPhoneResponse }) =>
           <LockOutlinedIcon />
         </Avatar> */}
         <Typography component="h1" variant="h5">
-          ورود/ ثبت نام
+          ورود/ ثبت نssssssssام
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField onChange={(e) => setPhone(e.target.value)} variant="outlined" margin="normal" required fullWidth id="email" label="شماره تماس" name="phone" autoComplete="phone" autoFocus />
-          <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit} onClick={handleCheckPhone}>
+          <TextField variant="outlined" margin="normal" required fullWidth id="email" label="شماره تماس" name="phone" autoComplete="phone" autoFocus />
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             ورود
           </Button>
         </form>
@@ -84,14 +82,12 @@ const CheckPhone = ({ checkPhoneNumber, reset_password, checkPhoneResponse }) =>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    checkPhoneResponse: state.auth.checkPhoneNumber,
-  };
+const mapStateToProps = (store) => {
+  return {};
 };
 const mapDispatchToProps = (dispatch) => ({
   checkPhoneNumber(data) {
     dispatch({ type: AuthActions.AUTH.CHECK_PHONE.REQUESTING, payload: data });
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(CheckPhone);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
