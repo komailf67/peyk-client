@@ -10,7 +10,6 @@ function* handleCheckPhone(action) {
   try {
     // const res = yield call(AuthService.checkPhone, 'checkPhone', action.payload);
     // const { data } = res;
-    // console.log('jjjjjjjjjjjjjjjjjjjjj', data);
 
     yield put({
       type: AuthActions.AUTH.CHECK_PHONE.SUCCESS,
@@ -31,17 +30,15 @@ function* handleCheckPhone(action) {
 function forwardTo(location) {
   history.push(location);
 }
-function* handleLogin(action) {
+function* handleCheckSms(action) {
   try {
-    const res = yield call(AuthService.checkPhone, 'login', action.payload);
+    const res = yield call(AuthService.login, 'login', action.payload);
     const { data } = res;
-    console.log('jjjjjjjjjjjjjjjjjjjjj', data);
     localStorage.setItem('access_token', data.data.token);
 
-    // yield put({
-    //   type: ActionTypes.AUTH.CHECK_PHONE.SUCCESS,
-    //   payload: res.body,
-    // });
+    yield put({
+      type: AuthActions.AUTH.CHECK_SMS_CODE.SUCCESS,
+    });
   } catch (err) {
     // yield put({
     //   type: ActionTypes.NOTIFICATION.ERROR.SET_ERROR_RESPONSE,
@@ -55,10 +52,10 @@ function* watchCheckPhone() {
   yield takeEvery(AuthActions.AUTH.CHECK_PHONE.REQUESTING, handleCheckPhone);
 }
 
-function* watchLogin() {
-  yield takeEvery(AuthActions.AUTH.LOGIN.REQUESTING, handleLogin);
+function* watchCheckSmsCode() {
+  yield takeEvery(AuthActions.AUTH.CHECK_SMS_CODE.REQUESTING, handleCheckSms);
 }
 
 export default function* authSaga() {
-  yield all([fork(watchCheckPhone), fork(watchLogin)]);
+  yield all([fork(watchCheckPhone), fork(watchCheckSmsCode)]);
 }

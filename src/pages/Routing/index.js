@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
 import CheckPhone from '../Auth/checkPhone';
-import Login from '../Auth/login';
+import CheckSmsCode from '../Auth/checkSmsCode';
 import NewService from '../newService';
 
 const Index = () => {
@@ -30,7 +30,7 @@ const Index = () => {
           <CheckPhone />
         </Route>
         <Route ex path="/auth/login">
-          <Login />
+          <CheckSmsCode />
         </Route>
       </Switch>
     </div>
