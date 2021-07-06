@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { Grid, Paper, Box, FormControl, InputLabel, Input, FormHelperText } from '@material-ui/core';
+import { CssBaseline, TextField, Button, Typography, Container, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import DropDownMenu from '../components/menus/DropDownMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,39 +17,23 @@ const NewService = () => {
   const classes = useStyles();
 
   return (
-    <Grid container justify="center" xs={6}>
-      <Box width="50%">
-        <FormControl>
-          <InputLabel htmlFor="my-input">Email address</InputLabel>
-          <Input id="my-input" aria-describedby="my-helper-text" />
-          <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
-        </FormControl>
-      </Box>
-      <Box width="50%">
-        <FormControl>
-          <InputLabel htmlFor="my-input">Email addrrrress</InputLabel>
-          <Input id="my-input" aria-describedby="my-helper-text" />
-          <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
-        </FormControl>
-      </Box>
-      {/* <Grid item xs={3}> */}
-
-      {/* </Grid> */}
-    </Grid>
-    // <div className={classes.root}>
-    //   <Grid container spacing={3}>
-    //     <Grid item xs={12}>
-    //       <Box component="div" m={1}>
-    //         <FormControl>
-    //           <InputLabel htmlFor="my-input">Email address</InputLabel>
-    //           <Input id="my-input" aria-describedby="my-helper-text" />
-    //           <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
-    //         </FormControl>
-    //       </Box>
-    //       {/* <Paper className={classes.paper}>xs=12</Paper> */}
-    //     </Grid>
-    //   </Grid>
-    // </div>
+    <Container component="main" maxWidth="md">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          ثبت درخواست
+        </Typography>
+        <Box>
+          <DropDownMenu buttonName="انتخاب مسیر" />
+        </Box>
+        <form className={classes.form} noValidate>
+          <TextField variant="outlined" margin="normal" required fullWidth id="smsCode" label="کد ارسالی" name="smsCode" autoComplete="smsCode" autoFocus />
+          <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}>
+            ادامه
+          </Button>
+        </form>
+      </div>
+    </Container>
   );
 };
 
