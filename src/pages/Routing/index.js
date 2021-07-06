@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
 import CheckPhone from '../Auth/checkPhone';
+import CheckSmsCode from '../Auth/checkSmsCode';
 import NewService from '../newService';
 
 const Index = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (true) {
-      history.push('/new-service');
-    }
+    // if (true) {
+    //   history.push('/auth/check-phone');
+    // }
   }, []);
   return (
     <div>
@@ -28,8 +29,8 @@ const Index = () => {
         <Route path="/auth/check-phone">
           <CheckPhone />
         </Route>
-        <Route path="/new-service">
-          <NewService />
+        <Route ex path="/auth/login">
+          <CheckSmsCode />
         </Route>
       </Switch>
     </div>

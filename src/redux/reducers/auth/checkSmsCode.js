@@ -5,30 +5,23 @@ export const initialState = {
   requesting: false,
   success: false,
   error: false,
-  phoneNumber: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const checkPhoneNumber = (state = initialState, action) =>
+const checkSmsCode = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case AuthActions.AUTH.CHECK_PHONE.REQUESTING:
+      case AuthActions.AUTH.CHECK_SMS_CODE.REQUESTING:
         draft.requesting = true;
         draft.success = false;
         draft.error = false;
         return draft;
-      case AuthActions.AUTH.CHECK_PHONE.SUCCESS:
-        draft.phoneNumber = action.payload;
+      case AuthActions.AUTH.CHECK_SMS_CODE.SUCCESS:
         draft.requesting = false;
         draft.success = true;
         draft.error = false;
         return draft;
-      case AuthActions.AUTH.CHECK_PHONE.ERROR:
-        draft.requesting = false;
-        draft.success = false;
-        draft.error = true;
-        return draft;
-      case AuthActions.AUTH.CHECK_PHONE.EMPTY:
+      case AuthActions.AUTH.CHECK_SMS_CODE.ERROR:
         draft.requesting = false;
         draft.success = false;
         draft.error = true;
@@ -38,4 +31,4 @@ const checkPhoneNumber = (state = initialState, action) =>
     }
   });
 
-export default checkPhoneNumber;
+export default checkSmsCode;

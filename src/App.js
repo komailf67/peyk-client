@@ -6,11 +6,12 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useHistory, withRouter } from 'react-router-dom';
 import Routing from './pages/Routing/index';
 import { store } from './redux/store';
+import history from './utils/history';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Router>
+      <Router history={history}>
         <Routing />
       </Router>
     </Provider>
