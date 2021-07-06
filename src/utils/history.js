@@ -5,11 +5,9 @@ import { StaticRouter } from 'react-router';
 let history = null;
 
 if (typeof window !== 'undefined') {
-  console.log('ppppppppppppppppppppppppp 1');
   history = createBrowserHistory();
 } else {
   history = (url) => {
-    console.log('ppppppppppppppppppppppppp 2');
     const staticRouter = new StaticRouter();
     staticRouter.props = { location: url, context: {}, basename: '' };
     const {
