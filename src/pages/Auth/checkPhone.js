@@ -14,18 +14,14 @@ const CheckPhone = ({ checkPhoneNumber, reset_password, checkPhoneResponse }) =>
     const phonePrefix = 98;
     const phoneNumber = parseInt(phone, 10);
     const countryId = 9;
-    console.log('gggggggggggggggggg', phoneNumber);
     checkPhoneNumber({
       phone: `989144062667`,
+      // phone: `989142667`,
       // phone: `${phonePrefix}${phoneNumber}`,
       // country_id: countryId,
       // reset_password: reset_password,
     });
   };
-
-  console.log('iiiiiiiiiiiiiiiiiiiiiii', checkPhoneResponse);
-  /////
-  console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh che');
 
   const useStyles = makeStyles((theme) => ({
     paper: {
