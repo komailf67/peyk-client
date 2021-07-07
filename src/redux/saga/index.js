@@ -1,8 +1,10 @@
 import { all } from 'redux-saga/effects';
 import authSaga from './authSaga';
+import baseInfoSaga from './baseInfoSaga';
+import cargoSaga from './cargoSaga';
 
 export default function* rootSaga() {
-  yield all([authSaga()]);
+  yield all([authSaga(), baseInfoSaga(), cargoSaga()]);
 }
 
 /* eslint-disable no-console */

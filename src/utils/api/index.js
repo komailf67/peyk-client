@@ -9,10 +9,11 @@ export const cancelAllRequests = () => {
 };
 
 export const baseURL = process.env.NEXT_PUBLIC_API_BASEURL;
+export const token = localStorage.getItem('access_token');
 
 export const axiosInstance = axios.create({
   baseURL,
-  headers: {},
+  headers: { Authorization: `Bearer ${token}` },
 });
 
 // Add a response interceptor
