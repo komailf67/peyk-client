@@ -2,6 +2,7 @@ import { call, put, fork, all, takeEvery, select } from 'redux-saga/effects';
 import { AuthService } from '../../services/authService';
 import history from '../../utils/history';
 import AuthActions from '../actions/authActions';
+import RedirectActions from '../actions/redirectActions';
 import NotificationActions from '../actions/notificationActions';
 
 function* handleCheckPhone(action) {
@@ -17,6 +18,10 @@ function* handleCheckPhone(action) {
     yield put({
       type: NotificationActions.NOTIFICATION.SUCCESS.SET_SUCCESS_RESPONSE,
       payload: message,
+    });
+    yield put({
+      type: RedirectActions.FILL,
+      payload: '/auth/login',
     });
     // yield call(forwardTo, '/auth/login');
 
@@ -44,6 +49,10 @@ function* handleCheckSms(action) {
     yield put({
       type: NotificationActions.NOTIFICATION.SUCCESS.SET_SUCCESS_RESPONSE,
       payload: message,
+    });
+    yield put({
+      type: RedirectActions.FILL,
+      payload: '/new-service',
     });
   } catch (err) {
     yield put({
