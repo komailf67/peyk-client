@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
+import Layout from '../../components/Layout';
 import CheckPhone from '../Auth/checkPhone';
 import CheckSmsCode from '../Auth/checkSmsCode';
 import NewService from '../newService';
@@ -14,26 +15,28 @@ const Index = () => {
     // }
   }, []);
   return (
-    <div>
-      {/* <nav>
+    <Layout>
+      <div>
+        {/* <nav>
         <ul>
           <li>
             <Link to="/new-service">New Service</Link>
           </li>
         </ul>
       </nav> */}
-      <Switch>
-        <Route path="/new-service">
-          <NewService />
-        </Route>
-        <Route path="/auth/check-phone">
-          <CheckPhone />
-        </Route>
-        <Route ex path="/auth/login">
-          <CheckSmsCode />
-        </Route>
-      </Switch>
-    </div>
+        <Switch>
+          <Route path="/new-service">
+            <NewService />
+          </Route>
+          <Route path="/auth/check-phone">
+            <CheckPhone />
+          </Route>
+          <Route ex path="/auth/login">
+            <CheckSmsCode />
+          </Route>
+        </Switch>
+      </div>
+    </Layout>
   );
 };
 

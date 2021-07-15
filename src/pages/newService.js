@@ -31,14 +31,27 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  container: { marginTop: '20px' },
   card: {
     minWidth: 275,
-    marginBottom: '20px',
+    marginBottom: '50px',
+    padding: '10px 20px 20px 20px',
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  bottomNavbar: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '80px',
+    width: '100%',
+    position: 'fixed',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'white',
   },
 }));
 const NewService = ({ getDiretions, directions, createCargo }) => {
@@ -123,172 +136,213 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
   });
 
   return (
-    <Container component="main" maxWidth="md">
-      <Typography variant="h6" gutterBottom>
-        Shipping address
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <Card className={classes.card}>
-          {/* <CardHeader title="Shrimp and Chorizo Paella" /> */}
-          {/* <Box> */}
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">انتخاب مسیر</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={direction} onChange={handleChangeDirection}>
-              {directions.length &&
-                directions.map(({ id, origin_country, destination_country }, index) => (
-                  <MenuItem value={id}>
-                    {origin_country.name} به {destination_country.name}
-                  </MenuItem>
-                ))}
-              {/* <MenuItem value={10}>Ten</MenuItem> */}
-            </Select>
-          </FormControl>
-          {/* <DropDownMenu buttonName="انتخاب مسیر" /> */}
-          {/* </Box> */}
-        </Card>
-        <Card className={classes.card}>
-          <CardHeader title="آدرس فرستنده" />
-          <Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  id="senderName"
-                  name="senderName"
-                  label="نام و نام خانوادگی"
-                  fullWidth
-                  autoComplete="shipping address-level2"
-                  value={formik.values.senderName}
-                  onChange={formik.handleChange}
-                  // error={formik.touched.senderName && Boolean(formik.errors.senderName)}
-                  // helperText={formik.touched.senderName && formik.errors.senderName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="senderNationalCode" name="senderNationalCode" label="کد ملی" fullWidth value={formik.values.senderNationalCode} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="senderPhone" name="senderPhone" label="شماره تماس" fullWidth autoComplete="شماره تماس" value={formik.values.senderPhone} onChange={formik.handleChange} />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField id="senderCity" name="senderCity" label="شهر" fullWidth autoComplete="shipping address-level2" value={formik.values.senderCity} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField id="senderState" name="senderState" label="استان" fullWidth value={formik.values.senderState} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="senderAddress"
-                  name="senderAddress"
-                  label="آدرس فرستنده"
-                  fullWidth
-                  autoComplete="shipping address-line1"
-                  value={formik.values.senderAddress}
-                  onChange={formik.handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="senderPlateNumber" name="senderPlateNumber" label="پلاک" fullWidth autoComplete="پلاک" value={formik.values.senderPlateNumber} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="senderUnit" name="senderUnit" label="واحد" fullWidth autoComplete="واحد" value={formik.values.senderUnit} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="senderPostalCode" name="senderPostalCode" label="کد پستی" fullWidth autoComplete="کد پستی" value={formik.values.senderPostalCode} onChange={formik.handleChange} />
-              </Grid>
-            </Grid>
+    <>
+      <Container className={classes.container} component="main" maxWidth="md">
+        <Typography variant="h6" gutterBottom>
+          انتخاب مسیر
+        </Typography>
+        <form id="my-form" onSubmit={formik.handleSubmit}>
+          <Box boxShadow={3}>
+            <Card className={classes.card}>
+              {/* <CardHeader title="Shrimp and Chorizo Paella" /> */}
+              {/* <Box> */}
+              <FormControl className={classes.formControl} style={{ direction: 'rtl', minWidth: 200 }}>
+                <InputLabel id="demo-simple-select-label">انتخاب مسیر</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={direction} onChange={handleChangeDirection}>
+                  {directions.length &&
+                    directions.map(({ id, origin_country, destination_country }, index) => (
+                      <MenuItem key={index} value={id}>
+                        {origin_country.name} به {destination_country.name}
+                      </MenuItem>
+                    ))}
+                  {/* <MenuItem value={10}>Ten</MenuItem> */}
+                </Select>
+              </FormControl>
+              {/* <DropDownMenu buttonName="انتخاب مسیر" /> */}
+              {/* </Box> */}
+            </Card>
           </Box>
-        </Card>
-        <Card className={classes.card}>
-          <CardHeader title="آدرس گیرنده" />
-          <Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  id="receiverName"
-                  name="receiverName"
-                  label="نام و نام خانوادگی"
-                  fullWidth
-                  autoComplete="shipping address-level2"
-                  value={formik.values.receiverName}
-                  onChange={formik.handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="receiverNationalCode" name="receiverNationalCode" label="کد ملی" fullWidth value={formik.values.receiverNationalCode} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="receiverPhone" name="receiverPhone" label="شماره تماس" fullWidth autoComplete="شماره تماس" value={formik.values.receiverPhone} onChange={formik.handleChange} />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField id="receiverCity" name="receiverCity" label="شهر" fullWidth autoComplete="shipping address-level2" value={formik.values.receiverCity} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField id="receiverState" name="receiverState" label="استان" fullWidth value={formik.values.receiverState} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="receiverAddress"
-                  name="receiverAddress"
-                  label="آدرس فرستنده"
-                  fullWidth
-                  autoComplete="shipping address-line1"
-                  value={formik.values.receiverAddress}
-                  onChange={formik.handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="receiverPlateNumber" name="receiverPlateNumber" label="پلاک" fullWidth autoComplete="پلاک" value={formik.values.receiverPlateNumber} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="receiverUnit" name="receiverUnit" label="واحد" fullWidth autoComplete="واحد" value={formik.values.receiverUnit} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField id="receiverPostalCode" name="receiverPostalCode" label="کد پستی" fullWidth autoComplete="کد پستی" value={formik.values.receiverPostalCode} onChange={formik.handleChange} />
-              </Grid>
-            </Grid>
+          <Typography variant="h6" gutterBottom>
+            آدرس فرستنده
+          </Typography>
+          <Box boxShadow={3}>
+            <Card className={classes.card}>
+              {/* <CardHeader title="آدرس فرستنده" /> */}
+              <Box>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="senderName"
+                      name="senderName"
+                      label="نام و نام خانوادگی"
+                      fullWidth
+                      autoComplete="shipping address-level2"
+                      value={formik.values.senderName}
+                      onChange={formik.handleChange}
+                      // error={formik.touched.senderName && Boolean(formik.errors.senderName)}
+                      // helperText={formik.touched.senderName && formik.errors.senderName}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="senderNationalCode" name="senderNationalCode" label="کد ملی" fullWidth value={formik.values.senderNationalCode} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="senderPhone" name="senderPhone" label="شماره تماس" fullWidth autoComplete="شماره تماس" value={formik.values.senderPhone} onChange={formik.handleChange} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField id="senderCity" name="senderCity" label="شهر" fullWidth autoComplete="shipping address-level2" value={formik.values.senderCity} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField id="senderState" name="senderState" label="استان" fullWidth value={formik.values.senderState} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="senderAddress"
+                      name="senderAddress"
+                      label="آدرس فرستنده"
+                      fullWidth
+                      autoComplete="shipping address-line1"
+                      value={formik.values.senderAddress}
+                      onChange={formik.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="senderPlateNumber" name="senderPlateNumber" label="پلاک" fullWidth autoComplete="پلاک" value={formik.values.senderPlateNumber} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="senderUnit" name="senderUnit" label="واحد" fullWidth autoComplete="واحد" value={formik.values.senderUnit} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="senderPostalCode" name="senderPostalCode" label="کد پستی" fullWidth autoComplete="کد پستی" value={formik.values.senderPostalCode} onChange={formik.handleChange} />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Card>
           </Box>
-        </Card>
-        <Card className={classes.card}>
-          <CardHeader title="مشخصات بسته" />
-          <Box>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <FormControl className={classes.formControl} disabled>
-                  <InputLabel id="demo-simple-select-disabled-label">نوع بسته</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-disabled-label"
-                    id="demo-simple-select-disabled"
-                    value={1}
-                    // onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={1}>پاکت</MenuItem>
-                  </Select>
-                </FormControl>{' '}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField id="content" name="content" label="محتویات بسته" fullWidth value={formik.values.content} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField id="value" name="value" label="ارزش بسته(تومان)" fullWidth value={formik.values.value} onChange={formik.handleChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField id="weight" name="weight" label="وزن بسته" fullWidth value={formik.values.weight} onChange={formik.handleChange} />
-              </Grid>
-            </Grid>
+          <Typography variant="h6" gutterBottom>
+            آدرس گیرنده
+          </Typography>
+          <Box boxShadow={3}>
+            <Card className={classes.card}>
+              {/* <CardHeader title="آدرس گیرنده" /> */}
+              <Box>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="receiverName"
+                      name="receiverName"
+                      label="نام و نام خانوادگی"
+                      fullWidth
+                      autoComplete="shipping address-level2"
+                      value={formik.values.receiverName}
+                      onChange={formik.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="receiverNationalCode" name="receiverNationalCode" label="کد ملی" fullWidth value={formik.values.receiverNationalCode} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="receiverPhone" name="receiverPhone" label="شماره تماس" fullWidth autoComplete="شماره تماس" value={formik.values.receiverPhone} onChange={formik.handleChange} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField id="receiverCity" name="receiverCity" label="شهر" fullWidth autoComplete="shipping address-level2" value={formik.values.receiverCity} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField id="receiverState" name="receiverState" label="استان" fullWidth value={formik.values.receiverState} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="receiverAddress"
+                      name="receiverAddress"
+                      label="آدرس فرستنده"
+                      fullWidth
+                      autoComplete="shipping address-line1"
+                      value={formik.values.receiverAddress}
+                      onChange={formik.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="receiverPlateNumber"
+                      name="receiverPlateNumber"
+                      label="پلاک"
+                      fullWidth
+                      autoComplete="پلاک"
+                      value={formik.values.receiverPlateNumber}
+                      onChange={formik.handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField id="receiverUnit" name="receiverUnit" label="واحد" fullWidth autoComplete="واحد" value={formik.values.receiverUnit} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id="receiverPostalCode"
+                      name="receiverPostalCode"
+                      label="کد پستی"
+                      fullWidth
+                      autoComplete="کد پستی"
+                      value={formik.values.receiverPostalCode}
+                      onChange={formik.handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Card>
           </Box>
-        </Card>
-        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-          ادامه
-        </Button>
-      </form>
-    </Container>
+          <Typography variant="h6" gutterBottom>
+            مشخصات بسته
+          </Typography>
+          <Box mb={12} boxShadow={3}>
+            <Card className={classes.card}>
+              {/* <CardHeader title="مشخصات بسته" /> */}
+              <Box>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl className={classes.formControl} disabled style={{ minWidth: 200 }}>
+                      <InputLabel id="demo-simple-select-disabled-label">نوع بسته</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-disabled-label"
+                        id="demo-simple-select-disabled"
+                        value={1}
+                        // onChange={handleChange}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={1}>پاکت</MenuItem>
+                      </Select>
+                    </FormControl>{' '}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField id="content" name="content" label="محتویات بسته" fullWidth value={formik.values.content} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField id="value" name="value" label="ارزش بسته(تومان)" fullWidth value={formik.values.value} onChange={formik.handleChange} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField id="weight" name="weight" label="وزن بسته" fullWidth value={formik.values.weight} onChange={formik.handleChange} />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Card>
+          </Box>
+          <Box boxShadow={3} className={classes.bottomNavbar}>
+            <Container className={classes.container} component="main" maxWidth="md">
+              <Box fullWidth width={1 / 4} alignSelf="center">
+                <Button form="my-form" type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                  ادامه
+                </Button>
+              </Box>
+            </Container>
+          </Box>
+        </form>
+      </Container>
+    </>
     // <Container component="main" maxWidth="md">
     //   <CssBaseline />
     //   <div className={classes.paper}>
