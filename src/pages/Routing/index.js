@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import CheckPhone from '../Auth/checkPhone';
 import CheckSmsCode from '../Auth/checkSmsCode';
 import NewService from '../newService';
+import Cargo from '../Profile/Cargo';
 
 const Index = () => {
   const history = useHistory();
@@ -25,14 +26,17 @@ const Index = () => {
         </ul>
       </nav> */}
         <Switch>
-          <Route path="/new-service">
-            <NewService />
-          </Route>
           <Route path="/auth/check-phone">
             <CheckPhone />
           </Route>
           <Route ex path="/auth/login">
             <CheckSmsCode />
+          </Route>
+          <Route path="/new-service">
+            <NewService />
+          </Route>
+          <Route path="/profile/cargo">
+            <Cargo />
           </Route>
         </Switch>
       </div>

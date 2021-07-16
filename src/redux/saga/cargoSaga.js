@@ -28,11 +28,31 @@ function* handleCreateCargo(action) {
     // yield put({ type: ActionTypes.AUTH.CHECK_PHONE.ERROR });
   }
 }
+function* handleGetCargoes(action) {
+  try {
+    const res = yield call(cargoServices.index, 'GET_CARGOES');
+    const { data } = res;
+
+    yield put({
+      type: CargoActions.CARGO.GET_CARGOES.SUCCESS,
+      payload: data,
+    });
+  } catch (err) {
+    yield put({
+      type: NotificationActions.NOTIFICATION.ERROR.SET_ERROR_RESPONSE,
+      payload: err.response.data,
+    });
+    // yield put({ type: ActionTypes.AUTH.CHECK_PHONE.ERROR });
+  }
+}
 
 function* watchCreateCargo() {
   yield takeEvery(CargoActions.CARGO.CREATE.REQUESTING, handleCreateCargo);
 }
+function* watchGetCargoes() {
+  yield takeEvery(CargoActions.CARGO.GET_CARGOES.REQUESTING, handleGetCargoes);
+}
 
 export default function* cargoSaga() {
-  yield all([fork(watchCreateCargo)]);
+  yield all([fork(watchCreateCargo), fork(watchGetCargoes)]);
 }
