@@ -1,5 +1,5 @@
 import produce from 'immer';
-import BaseInfoActions from '../../actions/baseInfoActions';
+import CargoActions from '../../actions/cargoActions';
 
 export const initialState = {
   requesting: false,
@@ -11,20 +11,23 @@ export const initialState = {
 const createCargo = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case BaseInfoActions.BASE_INFO.DIRECTIONS.REQUESTING:
+      case CargoActions.CARGO.CREATE.REQUESTING:
         draft.requesting = true;
         draft.success = false;
         draft.error = false;
         return draft;
-      case BaseInfoActions.BASE_INFO.DIRECTIONS.SUCCESS:
+      case CargoActions.CARGO.CREATE.SUCCESS:
         draft.requesting = false;
         draft.success = true;
         draft.error = false;
         return draft;
-      case BaseInfoActions.BASE_INFO.DIRECTIONS.ERROR:
+      case CargoActions.CARGO.CREATE.ERROR:
         draft.requesting = false;
         draft.success = false;
         draft.error = true;
+        return draft;
+      case CargoActions.CARGO.CREATE.FORM_SUBMIT_STATE:
+        draft.success = action.payload;
         return draft;
       default:
         return draft;

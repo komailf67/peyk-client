@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
   },
 }));
-const NewService = ({ getDiretions, directions, createCargo }) => {
+const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, changeFormSubmitState }) => {
   const classes = useStyles();
   const [directionId, setDirectionId] = React.useState('');
   const [selectedDirection, setSelectedDirection] = React.useState(false);
@@ -137,7 +137,12 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
       createCargo(dataToSend);
     },
   });
-
+  useEffect(() => {
+    if (isFormSubmitted) {
+      formik.resetForm();
+      changeFormSubmitState(false);
+    }
+  }, [isFormSubmitted]);
   return (
     <>
       <Container className={classes.container} component="main" maxWidth="md">
@@ -353,14 +358,16 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
                       </Select>
                     </FormControl>{' '}
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField id="content" name="content" label="محتویات بسته" fullWidth value={formik.values.content} onChange={formik.handleChange} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="value" name="value" label="ارزش بسته(تومان)" fullWidth value={formik.values.value} onChange={formik.handleChange} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="weight" name="weight" label="وزن بسته" fullWidth value={formik.values.weight} onChange={formik.handleChange} />
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={4}>
+                      <TextField id="content" name="content" label="محتویات بسته" fullWidth value={formik.values.content} onChange={formik.handleChange} />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField id="value" name="value" label="ارزش بسته(تومان)" fullWidth value={formik.values.value} onChange={formik.handleChange} />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField id="weight" name="weight" label="وزن بسته" fullWidth value={formik.values.weight} onChange={formik.handleChange} />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Box>
@@ -384,6 +391,7 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
 const mapStateToProps = (state) => {
   return {
     directions: state.baseInfo.directions.list,
+    isFormSubmitted: state.cargo.createCargo.success,
   };
 };
 
@@ -397,6 +405,12 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch({
       type: CargoActions.CARGO.CREATE.REQUESTING,
       payload: data,
+    });
+  },
+  changeFormSubmitState: (state) => {
+    dispatch({
+      type: CargoActions.CARGO.CREATE.FORM_SUBMIT_STATE,
+      payload: state,
     });
   },
 });
