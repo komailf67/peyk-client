@@ -56,14 +56,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 const NewService = ({ getDiretions, directions, createCargo }) => {
   const classes = useStyles();
-  const [direction, setDirection] = React.useState('');
+  const [directionId, setDirectionId] = React.useState('');
+  const [selectedDirection, setSelectedDirection] = React.useState(false);
 
   useEffect(() => {
     getDiretions();
   }, []);
 
   const handleChangeDirection = (event) => {
-    setDirection(event.target.value);
+    setDirectionId(event.target.value);
+    const direction = directions.find((item) => item.id === event.target.value);
+    setSelectedDirection(direction);
   };
 
   // const validationSchema = yup.object({
@@ -97,7 +100,7 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      const selectedDirection = directions.find((item) => item.id === direction);
+      const selectedDirection = directions.find((item) => item.id === directionId);
       const dataToSend = {
         content: values.content,
         weight: values.weight,
@@ -148,7 +151,7 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
               {/* <Box> */}
               <FormControl className={classes.formControl} style={{ direction: 'rtl', minWidth: 200 }}>
                 <InputLabel id="demo-simple-select-label">انتخاب مسیر</InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={direction} onChange={handleChangeDirection}>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={directionId} onChange={handleChangeDirection}>
                   {directions.length &&
                     directions.map(({ id, origin_country, destination_country }, index) => (
                       <MenuItem key={index} value={id}>
@@ -162,9 +165,25 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
               {/* </Box> */}
             </Card>
           </Box>
-          <Typography variant="h6" gutterBottom>
-            آدرس فرستنده
-          </Typography>
+          <Box display="flex">
+            <Typography variant="h6" gutterBottom>
+              آدرس فرستنده{' '}
+            </Typography>
+            {selectedDirection?.origin_country?.name ? (
+              <Box ml={1}>
+                <FormControl className={classes.formControl} disabled style={{ minWidth: 100 }}>
+                  <Select
+                    labelId="demo-simple-select-disabled-label"
+                    id="demo-simple-select-disabled"
+                    value={1}
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value={1}>{selectedDirection?.origin_country?.name}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            ) : null}
+          </Box>
           <Box boxShadow={3}>
             <Card className={classes.card}>
               {/* <CardHeader title="آدرس فرستنده" /> */}
@@ -221,9 +240,25 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
               </Box>
             </Card>
           </Box>
-          <Typography variant="h6" gutterBottom>
-            آدرس گیرنده
-          </Typography>
+          <Box display="flex">
+            <Typography variant="h6" gutterBottom>
+              آدرس گیرنده{' '}
+            </Typography>
+            {selectedDirection?.destination_country?.name ? (
+              <Box ml={1}>
+                <FormControl className={classes.formControl} disabled style={{ minWidth: 100 }}>
+                  <Select
+                    labelId="demo-simple-select-disabled-label"
+                    id="demo-simple-select-disabled"
+                    value={1}
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value={1}>{selectedDirection?.destination_country?.name}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            ) : null}
+          </Box>
           <Box boxShadow={3}>
             <Card className={classes.card}>
               {/* <CardHeader title="آدرس گیرنده" /> */}
@@ -343,70 +378,6 @@ const NewService = ({ getDiretions, directions, createCargo }) => {
         </form>
       </Container>
     </>
-    // <Container component="main" maxWidth="md">
-    //   <CssBaseline />
-    //   <div className={classes.paper}>
-    //     <Typography component="h1" variant="h5">
-    //       ثبت درخواست
-    //     </Typography>
-
-    //     <form className={classes.form} noValidate>
-    //       <Box>
-    //         <DropDownMenu buttonName="انتخاب مسیر" />
-    //       </Box>
-    //       <FormControl className={classes.formControl} disabled>
-    //         <InputLabel id="demo-simple-select-disabled-label">کشور مبدا</InputLabel>
-    //         <Select
-    //           labelId="demo-simple-select-disabled-label"
-    //           id="demo-simple-select-disabled"
-    //           value={10}
-    //           // onChange={handleChange}
-    //         >
-    //           <MenuItem value="">
-    //             <em>None</em>
-    //           </MenuItem>
-    //           <MenuItem value={10}>Ten</MenuItem>
-    //         </Select>
-    //         <div>
-    //           <TextField  id="outlined-required" label="شهر" defaultValue="" variant="outlined" />
-    //           <TextField required id="outlined-required" label="استان" defaultValue="" variant="outlined" />
-    //         </div>
-    //         <div>
-    //           <TextField required id="outlined-required" label="آدرس" defaultValue="" variant="outlined" />
-    //         </div>
-    //       </FormControl>
-    //     </form>
-    //     <form className={classes.form} noValidate>
-    //       <Box>
-    //         <DropDownMenu buttonName="انتخاب مسیر" />
-    //       </Box>
-    //       <FormControl className={classes.formControl} disabled>
-    //         <InputLabel id="demo-simple-select-disabled-label">کشور مبدا</InputLabel>
-    //         <Select
-    //           labelId="demo-simple-select-disabled-label"
-    //           id="demo-simple-select-disabled"
-    //           value={10}
-    //           // onChange={handleChange}
-    //         >
-    //           <MenuItem value="">
-    //             <em>None</em>
-    //           </MenuItem>
-    //           <MenuItem value={10}>Ten</MenuItem>
-    //         </Select>
-    //         <div>
-    //           <TextField required id="outlined-required" label="شهر" defaultValue="" variant="outlined" />
-    //           <TextField required id="outlined-required" label="استان" defaultValue="" variant="outlined" />
-    //         </div>
-    //         <div>
-    //           <TextField required id="outlined-required" label="آدرس" defaultValue="" variant="outlined" />
-    //         </div>
-    //       </FormControl>
-    //     </form>
-    //     <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}>
-    //       ادامه
-    //     </Button>
-    //   </div>
-    // </Container>
   );
 };
 
