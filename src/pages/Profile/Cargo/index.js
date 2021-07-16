@@ -37,7 +37,6 @@ const Cargo = ({ getCargoes, cargoes }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log('vvvvvvvvvvvvvvvvvvvvvvvvvv', cargoes);
   return (
     <Container className={classes.container} component="main" maxWidth="xl">
       <div className={classes.root}>

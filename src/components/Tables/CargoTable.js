@@ -45,7 +45,6 @@ const CargoTable = ({ cargoes, stateEnum }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      ;
     </>
   );
 };

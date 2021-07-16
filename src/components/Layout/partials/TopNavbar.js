@@ -17,6 +17,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import { useHistory } from 'react-router-dom';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -82,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TopNavbar = () => {
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -178,22 +181,22 @@ const TopNavbar = () => {
             <Tooltip title="درخواست جدید">
               <IconButton aria-label="show 17 new notifications" color="inherit">
                 {/* <Badge badgeContent={17} color="secondary"> */}
-                <AddCircleOutlineIcon />
+                <AddCircleOutlineIcon onClick={() => history.push('/new-service')} />
                 {/* </Badge> */}
               </IconButton>
             </Tooltip>
             <Tooltip title="سفارشات من">
               <IconButton aria-label="show 17 new notifications" color="inherit">
                 {/* <Badge badgeContent={17} color="secondary"> */}
-                <AccessTimeIcon />
+                <AccessTimeIcon onClick={() => history.push('/profile/cargo')} />
                 {/* </Badge> */}
               </IconButton>
             </Tooltip>
-            <Tooltip title="پروفایل">
+            {/* <Tooltip title="پروفایل">
               <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
                 <AccountCircle />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
