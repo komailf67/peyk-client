@@ -179,16 +179,16 @@ const TopNavbar = () => {
               </Badge>
             </IconButton> */}
             <Tooltip title="درخواست جدید">
-              <IconButton aria-label="show 17 new notifications" color="inherit">
+              <IconButton aria-label="show 17 new notifications" color="inherit" onClick={() => history.push('/new-service')}>
                 {/* <Badge badgeContent={17} color="secondary"> */}
-                <AddCircleOutlineIcon onClick={() => history.push('/new-service')} />
+                <AddCircleOutlineIcon />
                 {/* </Badge> */}
               </IconButton>
             </Tooltip>
             <Tooltip title="سفارشات من">
-              <IconButton aria-label="show 17 new notifications" color="inherit">
+              <IconButton aria-label="show 17 new notifications" color="inherit" onClick={() => history.push('/profile/cargo')}>
                 {/* <Badge badgeContent={17} color="secondary"> */}
-                <AccessTimeIcon onClick={() => history.push('/profile/cargo')} />
+                <AccessTimeIcon />
                 {/* </Badge> */}
               </IconButton>
             </Tooltip>
