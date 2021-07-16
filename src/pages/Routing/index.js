@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import PrivateRoute from '../../components/Routes/PrivateRoute';
+import PublicRoute from '../../components/Routes/PublicRoute';
 import CheckPhone from '../Auth/checkPhone';
 import CheckSmsCode from '../Auth/checkSmsCode';
 import NewService from '../newService';
 import Cargo from '../Profile/Cargo';
 
 const Index = () => {
-  const history = useHistory();
-
-  useEffect(() => {
-    // if (true) {
-    //   history.push('/auth/check-phone');
-    // }
-  }, []);
   return (
     <Layout>
       <div>
@@ -26,18 +21,10 @@ const Index = () => {
         </ul>
       </nav> */}
         <Switch>
-          <Route path="/auth/check-phone">
-            <CheckPhone />
-          </Route>
-          <Route ex path="/auth/login">
-            <CheckSmsCode />
-          </Route>
-          <Route path="/new-service">
-            <NewService />
-          </Route>
-          <Route path="/profile/cargo">
-            <Cargo />
-          </Route>
+          <PublicRoute component={CheckPhone} restricted path="/auth/check-phone" exact />
+          <PublicRoute component={CheckSmsCode} restricted path="/auth/login" exact />
+          <PrivateRoute component={NewService} path="/new-service" exact />
+          <PrivateRoute component={Cargo} path="/profile/cargo" exact />
         </Switch>
       </div>
     </Layout>

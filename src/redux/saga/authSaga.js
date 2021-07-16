@@ -13,7 +13,7 @@ function* handleCheckPhone(action) {
     yield put({
       type: AuthActions.AUTH.CHECK_PHONE.SUCCESS,
       // payload: data.data.phone,
-      payload: '989144062667',
+      payload: '989144062667', //TODO
     });
     yield put({
       type: NotificationActions.NOTIFICATION.SUCCESS.SET_SUCCESS_RESPONSE,
@@ -33,9 +33,7 @@ function* handleCheckPhone(action) {
     });
   }
 }
-function forwardTo(location) {
-  history.push(location);
-}
+
 function* handleCheckSms(action) {
   try {
     const res = yield call(AuthService.login, 'login', action.payload);
