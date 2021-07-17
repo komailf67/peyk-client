@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     minWidth: 275,
     marginBottom: '50px',
-    padding: '10px 20px 20px 20px',
+    // padding: '10px 20px 20px 20px',
   },
   paper: {
     padding: theme.spacing(2),
