@@ -10,13 +10,13 @@ export const AuthService = {
   // },
   async checkPhone(key, body = {}) {
     // const res = await axiosInstance.post(`${config.baseUrl}users/auth/login`, key, body);
-    const res = axios.post(`${config.baseUrl}users/auth/send-code`, body);
+    const res = await axiosInstance.post(`${config.baseUrl}users/auth/send-code`, body);
     // const res = axios.get(`https://jsonplaceholder.typicode.com/todos/1`);
     return res;
   },
   async login(key, body = {}) {
     // const res = await axiosInstance.post(`${config.baseUrl}users/auth/login`, key, body);
-    const res = axios.post(`${config.baseUrl}users/auth/login`, body);
+    const res = await axiosInstance.post(`${config.baseUrl}users/auth/login`, body);
     return res;
   },
 };
