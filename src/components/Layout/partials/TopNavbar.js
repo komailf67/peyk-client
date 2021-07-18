@@ -108,7 +108,10 @@ const TopNavbar = () => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  const logout = () => {
+    localStorage.removeItem('access_token');
+    history.push('/');
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -120,8 +123,10 @@ const TopNavbar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem disabled onClick={handleMenuClose}>
+        Profile
+      </MenuItem>
+      <MenuItem onClick={logout}>خروج</MenuItem>
     </Menu>
   );
 
@@ -192,11 +197,11 @@ const TopNavbar = () => {
                 {/* </Badge> */}
               </IconButton>
             </Tooltip>
-            {/* <Tooltip title="پروفایل">
+            <Tooltip title="پروفایل">
               <IconButton edge="end" aria-label="account of current user" aria-controls={menuId} aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
                 <AccountCircle />
               </IconButton>
-            </Tooltip> */}
+            </Tooltip>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton aria-label="show more" aria-controls={mobileMenuId} aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">

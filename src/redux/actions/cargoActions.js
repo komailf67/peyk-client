@@ -11,6 +11,11 @@ class CargoActions {
       SUCCESS: 'CARGO_GET_CARGOES_SUCCESS',
       ERROR: 'CARGO_GET_CARGOES_ERROR',
     },
+    PAY: {
+      REQUESTING: 'CARGO_PAY_REQUESTING',
+      SUCCESS: 'CARGO_PAY_SUCCESS',
+      ERROR: 'CARGO_PAY_ERROR',
+    },
   };
 }
 

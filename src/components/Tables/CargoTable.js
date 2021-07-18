@@ -2,14 +2,21 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
-
+import PaymentIcon from '@material-ui/icons/Payment';
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
+  icon: {
+    cursor: 'pointer',
+  },
 }));
-const CargoTable = ({ cargoes, stateEnum }) => {
+const CargoTable = ({ cargoes, stateEnum, pay }) => {
   const classes = useStyles();
+
+  const handlePayment = (cargoId) => {
+    pay(cargoId);
+  };
 
   return (
     <>
@@ -24,6 +31,7 @@ const CargoTable = ({ cargoes, stateEnum }) => {
               <TableCell>وزن</TableCell>
               {stateEnum === 'rejected' ? <TableCell>دلیل ریجکت</TableCell> : null}
               {stateEnum === 'verified' ? <TableCell>هزینه</TableCell> : null}
+              {stateEnum === 'verified' ? <TableCell>پرداخت</TableCell> : null}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,6 +47,11 @@ const CargoTable = ({ cargoes, stateEnum }) => {
                   <TableCell>{item.weight}</TableCell>
                   {stateEnum === 'rejected' ? <TableCell>{item.reject_reason}</TableCell> : null}
                   {stateEnum === 'verified' ? <TableCell>{item.cost}</TableCell> : null}
+                  {stateEnum === 'verified' ? (
+                    <TableCell>
+                      <PaymentIcon className={classes.icon} color="primary" onClick={() => handlePayment(item.id)} />
+                    </TableCell>
+                  ) : null}
                 </TableRow>
               ) : null
             )}
