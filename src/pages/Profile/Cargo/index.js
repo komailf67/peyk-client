@@ -30,6 +30,7 @@ const Cargo = ({ getCargoes, cargoes, pay, gatewayData }) => {
   const TabsName = ['Create', 'Show'];
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const states = ['pending', 'verified', 'paid', 'shipped', 'delivered', 'rejected'];
 
   useEffect(() => {
     getCargoes();
@@ -43,19 +44,31 @@ const Cargo = ({ getCargoes, cargoes, pay, gatewayData }) => {
       <div className={classes.root}>
         <Paper square>
           <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} aria-label="disabled tabs example">
-            <Tab label="در حال بررسی" {...a11yProps(0)} />
-            <Tab label="تایید شده" {...a11yProps(1)} />
-            <Tab label="رد شده" {...a11yProps(2)} />
+            <Tab label="در حال بررسی" {...a11yProps(states.indexOf('pending'))} />
+            <Tab label="تایید شده" {...a11yProps(states.indexOf('verified'))} />
+            <Tab label="پرداخت شده" {...a11yProps(states.indexOf('paid'))} />
+            <Tab label="فرستاده شده" {...a11yProps(states.indexOf('shipped'))} />
+            <Tab label="تحویل داده شده" {...a11yProps(states.indexOf('delivered'))} />
+            <Tab label="رد شده" {...a11yProps(states.indexOf('rejected'))} />
           </Tabs>
         </Paper>
-        <TabPanel value={value} index={0}>
-          <CargoTable cargoes={cargoes} stateEnum="pending" />
+        <TabPanel value={value} index={states.indexOf('pending')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} />
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          <CargoTable cargoes={cargoes} stateEnum="verified" pay={(cargoId) => pay(cargoId)} />
+        <TabPanel value={value} index={states.indexOf('verified')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} pay={(cargoId) => pay(cargoId)} />
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          <CargoTable cargoes={cargoes} stateEnum="rejected" />
+        <TabPanel value={value} index={states.indexOf('paid')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} />
+        </TabPanel>
+        <TabPanel value={value} index={states.indexOf('delivered')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} />
+        </TabPanel>
+        <TabPanel value={value} index={states.indexOf('shipped')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} />
+        </TabPanel>
+        <TabPanel value={value} index={states.indexOf('rejected')}>
+          <CargoTable cargoes={cargoes} stateEnum={states[value]} />
         </TabPanel>
       </div>
       {gatewayData && gatewayData?.data?.form_parameters ? <BankingForm gatewayData={gatewayData.data} /> : null}
