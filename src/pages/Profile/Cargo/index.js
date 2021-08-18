@@ -33,8 +33,8 @@ const Cargo = ({ getCargoes, cargoes, pay, gatewayData }) => {
   const states = ['pending', 'verified', 'paid', 'shipped', 'delivered', 'rejected'];
 
   useEffect(() => {
-    getCargoes();
-  }, []);
+    getCargoes(states[value]);
+  }, [value]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -83,7 +83,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCargoes: () => dispatch({ type: CargoActions.CARGO.GET_CARGOES.REQUESTING }),
+    getCargoes: (state) => dispatch({ type: CargoActions.CARGO.GET_CARGOES.REQUESTING, payload: state }),
     pay: (cargoId) => dispatch({ type: CargoActions.CARGO.PAY.REQUESTING, payload: cargoId }),
   };
 };

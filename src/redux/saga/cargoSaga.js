@@ -26,7 +26,7 @@ function* handleCreateCargo(action) {
 }
 function* handleGetCargoes(action) {
   try {
-    const res = yield call(cargoServices.index, 'GET_CARGOES');
+    const res = yield call(cargoServices.index, 'GET_CARGOES', action.payload);
     const { data } = res;
 
     yield put({
