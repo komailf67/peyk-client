@@ -109,7 +109,7 @@ const TopNavbar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   const logout = () => {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('userInfo');
     history.push('/');
   };
   const menuId = 'primary-search-account-menu';

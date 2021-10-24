@@ -41,7 +41,7 @@ function* handleCheckSms(action) {
     const { message } = data;
     /**
      * userinfo set in redux in utils/api file
-     * because after login, when the next api called, localStorage.getItem('access_token) returns null
+     * because after login, when the next api called, localStorage.getItem('userInfo) returns null
      */
     yield put({
       type: AuthActions.AUTH.CHECK_SMS_CODE.SUCCESS,

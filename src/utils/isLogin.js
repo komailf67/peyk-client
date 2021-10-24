@@ -1,5 +1,5 @@
 const isLogin = () => {
-  const accessToken = localStorage.getItem('access_token');
-  return !!accessToken;
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  return !!userInfo?.token;
 };
 export default isLogin;

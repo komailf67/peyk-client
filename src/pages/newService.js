@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import {
   Card,
-  CardContent,
-  CssBaseline,
-  CardActions,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   TextField,
   Button,
   Typography,
@@ -13,7 +14,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
   Grid,
   FormControlLabel,
   Checkbox,
@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
   },
 }));
-const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, changeFormSubmitState, setError }) => {
+const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, changeFormSubmitState, setError, userInfo }) => {
   const classes = useStyles();
   const [directionId, setDirectionId] = React.useState('');
   const [selectedDirection, setSelectedDirection] = React.useState(false);
-
+  const [directionModalState, setDirectionModalState] = React.useState(false);
   useEffect(() => {
     getDiretions();
   }, []);
@@ -72,7 +72,7 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
 
   const validationSchema = yup.object({
     senderName: yup.string().required('وارد کردن این فیلد الزامی است'),
-    senderNationalCode: yup.number().test('maxDigits', 'کد ملی باید 10 رقم باشد', (number) => String(number).length === 10),
+    // senderNationalCode: yup.number().test('maxDigits', 'کد ملی باید 10 رقم باشد', (number) => String(number).length === 10),
     senderPhone: yup.number().test('maxDigits', ' شماره موبایل باید با 98 وارد شود و 12 رقم باشد', (number) => String(number).length === 12),
     senderCity: yup.string().required('وارد کردن این فیلد الزامی است'),
     senderState: yup.string().required('وارد کردن این فیلد الزامی است'),
@@ -81,7 +81,7 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
     senderUnit: yup.number().required('وارد کردن این فیلد الزامی است'),
     senderPostalCode: yup.number().test('maxDigits', 'کد پستی باید 10 رقم باشد', (number) => String(number).length === 10),
     receiverName: yup.string().required('وارد کردن این فیلد الزامی است'),
-    receiverNationalCode: yup.number().test('maxDigits', 'کد ملی باید 10 رقم باشد', (number) => String(number).length === 10),
+    // receiverNationalCode: yup.number().test('maxDigits', 'کد ملی باید 10 رقم باشد', (number) => String(number).length === 10),
     receiverPhone: yup.number().test('maxDigits', ' شماره موبایل باید با 98 وارد شود و 12 رقم باشد', (number) => String(number).length === 12),
     receiverCity: yup.string().required('وارد کردن این فیلد الزامی است'),
     receiverState: yup.string().required('وارد کردن این فیلد الزامی است'),
@@ -98,15 +98,16 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
 
   const formik = useFormik({
     initialValues: {
-      senderName: '',
+      senderName: userInfo.name,
       senderNationalCode: '',
-      senderPhone: '',
+      senderPhone: userInfo.phone,
       senderCity: '',
       senderState: '',
       senderAddress: '',
       senderPlateNumber: '',
       senderUnit: '',
       senderPostalCode: '',
+      senderDescription: '',
       receiverName: '',
       receiverNationalCode: '',
       receiverPhone: '',
@@ -116,9 +117,12 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
       receiverPlateNumber: '',
       receiverUnit: '',
       receiverPostalCode: '',
+      receiverDescription: '',
       content: '',
       weight: '',
       value: '',
+      type: 'parcel',
+      currency: 'irt',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -129,9 +133,12 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
       }
       const selectedDirection = directions.find((item) => item.id === directionId);
       const dataToSend = {
-        content: values.content,
-        weight: values.weight,
-        value: values.value,
+        // content: values.content,
+        // weight: values.weight,
+        // value: values.value,
+        // type: values.type,
+        // currency: values.currency,
+        ...values,
         origin_address: {
           country_id: selectedDirection.origin_country.id,
           city_name: values.senderCity,
@@ -143,6 +150,7 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
           address_line_one: values.senderAddress,
           address_line_two: null,
           plate_number: values.senderPlateNumber.toString(),
+          description: values.senderDescription,
           unit: values.senderUnit.toString(),
           // unit3: 4,
         },
@@ -157,6 +165,7 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
           address_line_one: values.receiverAddress,
           address_line_two: null,
           plate_number: values.receiverPlateNumber.toString(),
+          description: values.receiverDescription,
           unit: values.receiverUnit.toString(),
           // unit3: 4,
         },
@@ -170,6 +179,12 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
       changeFormSubmitState(false);
     }
   }, [isFormSubmitted]);
+  useEffect(() => {
+    if (selectedDirection && selectedDirection.description) {
+      setDirectionModalState(true);
+    }
+  }, [selectedDirection]);
+
   return (
     <>
       <Container className={classes.container} component="main" maxWidth="md">
@@ -343,6 +358,22 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
                       helperText={formik.touched.senderPostalCode && formik.errors.senderPostalCode}
                     />
                   </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      type="text"
+                      id="senderDescription"
+                      name="senderDescription"
+                      label="توضیحات"
+                      fullWidth
+                      multiline
+                      rows={1}
+                      autoComplete="توضیحات"
+                      value={formik.values.senderDescription}
+                      onChange={formik.handleChange}
+                      // error={formik.touched.senderDescription && Boolean(formik.errors.senderDescription)}
+                      // helperText={formik.touched.senderDescription && formik.errors.senderDescription}
+                    />
+                  </Grid>
                 </Grid>
               </Box>
             </Card>
@@ -493,6 +524,22 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
                       helperText={formik.touched.receiverPostalCode && formik.errors.receiverPostalCode}
                     />
                   </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      type="text"
+                      id="receiverDescription"
+                      name="receiverDescription"
+                      label="توضیحات"
+                      fullWidth
+                      multiline
+                      rows={1}
+                      autoComplete="توضیحات"
+                      value={formik.values.receiverDescription}
+                      onChange={formik.handleChange}
+                      // error={formik.touched.receiverDescription && Boolean(formik.errors.receiverDescription)}
+                      // helperText={formik.touched.receiverDescription && formik.errors.receiverDescription}
+                    />
+                  </Grid>
                 </Grid>
               </Box>
             </Card>
@@ -505,19 +552,26 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
               {/* <CardHeader title="مشخصات بسته" /> */}
               <Box>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <FormControl className={classes.formControl} disabled style={{ minWidth: 200 }}>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl className={classes.formControl} style={{ minWidth: 200 }}>
                       <InputLabel id="demo-simple-select-disabled-label">نوع بسته</InputLabel>
+                      <Select labelId="demo-simple-select-disabled-label" id="demo-simple-select-disabled" value={formik.values.type} onChange={(e) => formik.setFieldValue('type', e.target.value)}>
+                        <MenuItem value={'parcel'}>پاکت</MenuItem>
+                        <MenuItem value={'letter'}>بسته</MenuItem>
+                      </Select>
+                    </FormControl>{' '}
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl className={classes.formControl} style={{ minWidth: 200 }}>
+                      <InputLabel id="demo-simple-select-disabled-label">واحد پولی</InputLabel>
                       <Select
                         labelId="demo-simple-select-disabled-label"
                         id="demo-simple-select-disabled"
-                        value={1}
-                        // onChange={handleChange}
+                        value={formik.values.currency}
+                        onChange={(e) => formik.setFieldValue('currency', e.target.value)}
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={1}>پاکت</MenuItem>
+                        <MenuItem value={'irt'}>ریال</MenuItem>
+                        <MenuItem value={'usd'}>دلار</MenuItem>
                       </Select>
                     </FormControl>{' '}
                   </Grid>
@@ -576,12 +630,26 @@ const NewService = ({ getDiretions, directions, createCargo, isFormSubmitted, ch
           </Box>
         </form>
       </Container>
+      <Dialog fullWidth maxWidth={'sm'} onClose={() => setDirectionModalState(false)} aria-labelledby="customized-dialog-title" open={directionModalState}>
+        <DialogTitle id="customized-dialog-title" onClose={() => setDirectionModalState(false)}>
+          توضیحات مسیر
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography gutterBottom>{selectedDirection.description}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => setDirectionModalState(false)} color="primary">
+            بستن
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
+    userInfo: state.auth.userInfo.details,
     directions: state.baseInfo.directions.list,
     isFormSubmitted: state.cargo.createCargo.success,
   };

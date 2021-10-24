@@ -11,7 +11,8 @@ export const cancelAllRequests = () => {
 };
 
 export const baseURL = process.env.NEXT_PUBLIC_API_BASEURL;
-export const token = localStorage.getItem('access_token');
+const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+export const token = !!userInfo ? userInfo.token : '';
 export const axiosInstance = axios.create({
   baseURL,
   headers: { Authorization: `Bearer ${token}` },
@@ -20,8 +21,8 @@ export const axiosInstance = axios.create({
 // Add a response interceptor
 axiosInstance.interceptors.request.use(
   function (response) {
-    if (!!token === false && store.getState()?.auth?.userInfo?.list?.token) {
-      response.headers.Authorization = `Bearer ${store.getState()?.auth?.userInfo?.list?.token}`;
+    if (!!token === false && store.getState()?.auth?.userInfo?.details?.token) {
+      response.headers.Authorization = `Bearer ${store.getState()?.auth?.userInfo?.details?.token}`;
     }
     const CancelToken = axios.CancelToken;
     // const access_token = localStorage.getItem('token');
@@ -50,7 +51,7 @@ axiosInstance.interceptors.response.use(
        * because after login, when the next api called, localStorage.getItem('access_token) returns null
        */
       store.dispatch({ type: AuthActions.AUTH.USER_INFO.FILL, payload: response.data.data });
-      localStorage.setItem('access_token', response.data.data.token);
+      localStorage.setItem('userInfo', JSON.stringify(response.data.data));
     }
     cancel = cancel.filter((fid) => {
       return fid[0] !== response.config.url;
