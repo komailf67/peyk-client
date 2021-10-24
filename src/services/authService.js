@@ -1,7 +1,6 @@
 // import { API } from '../utils/http';
 import { config } from '../config';
 import { axiosInstance } from '../utils/api';
-import axios from 'axios';
 
 export const AuthService = {
   // async checkPhone(key, body = {}) {
@@ -17,6 +16,10 @@ export const AuthService = {
   async login(key, body = {}) {
     // const res = await axiosInstance.post(`${config.baseUrl}users/auth/login`, key, body);
     const res = await axiosInstance.post(`${config.baseUrl}users/auth/login`, body);
+    return res;
+  },
+  async update(body = {}) {
+    const res = await axiosInstance.put(`${config.baseUrl}users/profile`, body);
     return res;
   },
 };

@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import AuthActions from '../../redux/actions/authActions';
 
 import { makeStyles } from '@material-ui/core/styles';
+import FormModal from '../../components/modal/FormModal';
+import RedirectActions from '../../redux/actions/redirectActions';
 
-const ChechSmsCode = ({ checkSms, phoneNumber }) => {
+const ChechSmsCode = ({ checkSms, phoneNumber, fullnameModalStatus, redirectTo, handleFullnameModalStatus, updateProfile }) => {
   const [smsCode, setSmsCode] = useState('');
   const handleCheckSmsCode = () => {
     checkSms({
@@ -62,6 +64,16 @@ const ChechSmsCode = ({ checkSms, phoneNumber }) => {
           </Button>
         </form>
       </div>
+      <FormModal
+        status={fullnameModalStatus}
+        title="نام خود را وارد کنید"
+        placeholder="نام و نام خانوادگی"
+        acceptButtonFunc={updateProfile}
+        cancelButtonFunc={() => {
+          handleFullnameModalStatus(false);
+          redirectTo('/new-service');
+        }}
+      />
     </Container>
   );
 };
@@ -69,11 +81,24 @@ const ChechSmsCode = ({ checkSms, phoneNumber }) => {
 const mapStateToProps = (state) => {
   return {
     phoneNumber: state.auth.checkPhoneNumber.phoneNumber,
+    fullnameModalStatus: state.auth.fullnameModalStatus.status,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   checkSms(data) {
     dispatch({ type: AuthActions.AUTH.CHECK_SMS_CODE.REQUESTING, payload: data });
+  },
+  updateProfile(data) {
+    dispatch({ type: AuthActions.AUTH.UPDATE_PROFILE.REQUESTING, payload: { name: data } });
+  },
+  handleFullnameModalStatus(status) {
+    dispatch({ type: AuthActions.AUTH.CHANGE_FULLNAME_MODAL_STATUS, payload: status });
+  },
+  redirectTo(path) {
+    dispatch({
+      type: RedirectActions.FILL,
+      payload: path,
+    });
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ChechSmsCode);
