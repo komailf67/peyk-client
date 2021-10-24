@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import { Container, Tabs, Tab, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Container, Tabs, Tab, Paper } from '@material-ui/core';
 import { TabPanel } from '../../../components/TabMenu/tabPanel';
 import { connect } from 'react-redux';
 import CargoActions from '../../../redux/actions/cargoActions';
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Cargo = ({ getCargoes, cargoes, pay, gatewayData }) => {
-  const TabsName = ['Create', 'Show'];
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const states = ['pending', 'verified', 'paid', 'shipped', 'delivered', 'rejected'];
