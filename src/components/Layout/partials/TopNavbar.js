@@ -110,7 +110,7 @@ const TopNavbar = () => {
   };
   const logout = () => {
     localStorage.removeItem('userInfo');
-    history.push('/');
+    window.location.href = '/';
   };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
